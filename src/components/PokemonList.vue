@@ -1,9 +1,15 @@
 <template>
-<ul v-if="isInitialized">
-    <li v-for="(pokemon, index) in response.data.results" :key="pokemon.name">
-        {{index+1}} {{pokemon.name}}
-    </li>
-</ul>
+<div class="h-screen overflow-y-auto shadow">
+    <div class="absolute">ABC</div>
+    <ul v-if="isInitialized" class=" md:w-48 px-3">
+        <li v-for="(pokemon, index) in response.data.results" :key="pokemon.name"
+        class="py-3 px-2 flex flex-col-3 border-b border-gray-200">
+            <i class="fas fa-hashtag mt-1 mr-1"></i>
+            <span class="pr-3 ">{{index+1}}</span> 
+            <span class="pl-3 ">{{$filters.capitalizeFirstCharacter(pokemon.name)}}</span>
+        </li>
+    </ul>
+</div>
 </template>
 <script lang="ts">
 import { ref, defineComponent } from 'vue'
