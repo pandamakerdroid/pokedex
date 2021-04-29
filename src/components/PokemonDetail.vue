@@ -1,13 +1,22 @@
 <template>
-<div class="py-5 px-10 w-full">
+<div v-if="isInitialized" class="py-5 px-10 w-full bg-gray-100">
   <span class="text-4xl">{{$filters.capitalizeFirstCharacter(pokemonDetails.name)}}</span>
+  <div v-for="type in pokemonDetails.types" :key="type.slot">Type {{type.slot}}: {{$filters.capitalizeFirstCharacter(type.type.name)}}</div>
+  <div >Order: {{pokemonDetails.order}}</div>
+  <span></span>
+  <pokemon-image :images="this.pokemonDetails.sprites"/>
 </div>
 </template>
 <script lang="ts">
-import { ref, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 import { useStore } from '../store'
+import PokemonImage from './PokemonImage.vue'
+
 export default defineComponent({
-  name: 'PokemonDetails',
+  name: 'PokemonDetail',
+    components: {
+    'pokemon-image':PokemonImage
+  },
   data: () => {
       const store=useStore();
       interface PokemonDetails{
@@ -24,6 +33,7 @@ export default defineComponent({
           store,
           pokemonDetailsUrl: '',
           pokemonDetails:{} as PokemonDetails,
+          isInitialized:false
       }
   },
   computed: {
@@ -33,6 +43,7 @@ export default defineComponent({
   },
   methods: {
     retrievePokemonDetails(){
+      this.isInitialized=false;
       if(this.store.getters.pokemonDetailsUrl===''){
         return;
       }
@@ -49,6 +60,7 @@ export default defineComponent({
             stats:response.data.stats,
             species:response.data.species.url
           };
+          this.isInitialized=true;
       });
     }
   },
