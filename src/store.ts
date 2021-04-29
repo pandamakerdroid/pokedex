@@ -16,7 +16,6 @@ export const store = createStore<State>({
   },
   mutations: {
       changePokemonDetailUrl(state, payload){
-          console.log(payload);
         state.pokemonDetailsUrl = payload.url;
       }
   }

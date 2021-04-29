@@ -2,9 +2,9 @@
 <div class="h-screen overflow-y-auto shadow">
     <i class="fas fa-chevron-left text-2xl absolute "></i>
     <ul v-if="isInitialized" class=" md:w-48 px-3">
-        <li v-for="(pokemon, index) in response.data.results" :key="pokemon.name"
+        <li v-for="(pokemon, index) in retrievedPokemons" :key="pokemon.name"
         class="py-3 px-2 flex flex-col-3 border-b border-gray-200"
-        v-on:click="store.commit({type:'changePokemonDetailUrl', url:pokemon.url})">
+        v-on:click="broadcastPokemonDetailsUrl(pokemon.url)">
             <i class="fas fa-hashtag mt-1 mr-1"></i>
             <span class="pr-3 ">{{index+1}}</span> 
             <span class="pl-3 ">{{$filters.capitalizeFirstCharacter(pokemon.name)}}</span>
@@ -31,7 +31,10 @@ export default defineComponent({
           baseUrl: string,
           pokemonPath: string,
           pokemonQueryLimit: string
-          pokemonCount: number
+      }
+      interface Pokemon{
+          name:string,
+          url:string
       }
       return{
           isInitialized:false,
@@ -40,11 +43,11 @@ export default defineComponent({
             baseUrl: import.meta.env.VITE_BASE_URL,
             pokemonPath: import.meta.env.VITE_PATH_POKEMON,
             pokemonQueryLimit: import.meta.env.VITE_QUERY_LIMIT_POKEMON,
-            pokemonCount:0
           } as PokemonApiUrl,
           pokemonQueryAmount:[50,75,100],
-          response:{}
-      }
+          retrievedPokemons:{} as Pokemon[],
+          pokemonCount:0
+    }
   },
 mounted () {
     this.axios
@@ -53,8 +56,8 @@ mounted () {
             this.pokemonApiUrl.pokemonQueryLimit+
             this.pokemonQueryAmount[0])
       .then(response => {
-          this.response=response;
-          this.pokemonApiUrl.pokemonCount=response.data.count
+          this.retrievedPokemons=response.data.results;
+          this.pokemonCount=response.data.count
           this.isInitialized = true;
       })
       .catch(
@@ -62,6 +65,11 @@ mounted () {
           console.log(error)
           return Promise.reject(error)
       });
+  },
+  methods: {
+      broadcastPokemonDetailsUrl(url:string){
+        this.store.commit({type:'changePokemonDetailUrl', url:url})
+      },
   }
 })
 </script>
