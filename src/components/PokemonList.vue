@@ -1,9 +1,10 @@
 <template>
 <div class="h-screen overflow-y-auto shadow">
-    <div class="absolute">ABC</div>
+    <i class="fas fa-chevron-left text-2xl absolute "></i>
     <ul v-if="isInitialized" class=" md:w-48 px-3">
         <li v-for="(pokemon, index) in response.data.results" :key="pokemon.name"
-        class="py-3 px-2 flex flex-col-3 border-b border-gray-200">
+        class="py-3 px-2 flex flex-col-3 border-b border-gray-200"
+        v-on:click="store.commit({type:'changePokemonDetailUrl', url:pokemon.url})">
             <i class="fas fa-hashtag mt-1 mr-1"></i>
             <span class="pr-3 ">{{index+1}}</span> 
             <span class="pl-3 ">{{$filters.capitalizeFirstCharacter(pokemon.name)}}</span>
@@ -13,6 +14,8 @@
 </template>
 <script lang="ts">
 import { ref, defineComponent } from 'vue'
+import { useStore } from '../store'
+
 export default defineComponent({
   name: 'PokemonList',
   props: {
@@ -22,8 +25,6 @@ export default defineComponent({
     }
   },
   setup: () => {
-    const count = ref(0)
-    return { count }
   },
   data: () => {
       interface PokemonApiUrl{
@@ -34,13 +35,14 @@ export default defineComponent({
       }
       return{
           isInitialized:false,
+          store:useStore(),
           pokemonApiUrl: {
             baseUrl: import.meta.env.VITE_BASE_URL,
             pokemonPath: import.meta.env.VITE_PATH_POKEMON,
             pokemonQueryLimit: import.meta.env.VITE_QUERY_LIMIT_POKEMON,
             pokemonCount:0
           } as PokemonApiUrl,
-          pokemonQueryAmount:[25,50,75,100],
+          pokemonQueryAmount:[50,75,100],
           response:{}
       }
   },
@@ -52,6 +54,7 @@ mounted () {
             this.pokemonQueryAmount[0])
       .then(response => {
           this.response=response;
+          this.pokemonApiUrl.pokemonCount=response.data.count
           this.isInitialized = true;
       })
       .catch(
