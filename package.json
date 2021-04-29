@@ -10,6 +10,7 @@
     "axios": "^0.21.1",
     "vue": "^3.0.5",
     "vue-axios": "^3.2.4",
+    "vue3-lazyload": "*",
     "vuex": "4.0"
   },
   "devDependencies": {
