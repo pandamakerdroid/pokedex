@@ -1,5 +1,5 @@
 <template>
-<div v-if="isInitialized" class="container mx-auto my-5 p-5">
+<div v-if="isInitialized" class="container md:h-full mx-auto px-5 pt-2">
         <div class="md:flex no-wrap md:-mx-2 ">
             <!-- Left Side -->
             <div class="w-full md:w-3/12 md:mx-2">
@@ -8,7 +8,7 @@
                     <div class="image overflow-hidden">
                         <pokemon-image :images="pokemonDetails.sprites"/>
                     </div>
-                    <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{$filters.capitalizeFirstCharacter(pokemonDetails.name)}}</h1>
+                    <h1 class="text-gray-900 font-bold text-xl leading-8 mt-1">{{$filters.capitalizeFirstCharacter(pokemonDetails.name)}}</h1>
                     <p class="text-sm text-gray-500 hover:text-gray-600 leading-6">ID: {{pokemonDetails.id}}</p>
                     <ul
                         class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
@@ -17,6 +17,9 @@
                         </li>
                         <li v-for="type in pokemonDetails.types" :key="type.slot" class="flex items-center py-3">
                             <span>Type {{type.slot}}: {{$filters.capitalizeFirstCharacter(type.type.name)}}</span>
+                        </li>
+                        <li v-for="(ability,index) in pokemonDetails.abilities" :key="ability.slot" class="flex items-center py-3">
+                            <span>Ability {{index+1}}: {{$filters.capitalizeFirstCharacter(ability.ability.name)}}</span>
                         </li>
                     </ul>
                 </div>
@@ -34,13 +37,6 @@
                         </span>
                         <span>Evolution</span>
                     </div>
-                      <!--<ul>
-                        <li v-for="(stat,index) in pokemonDetails.stats" :key="index">
-                          <span>Base Stat: {{stat.base_stat}}</span>
-                          <span>Effort: {{stat.effort}}</span>
-                          <span>Name: {{stat.stat.name}}</span>
-                        </li>
-                      </ul>-->
                     <div class="grid grid-cols-3">
                         <div class="text-center my-2">
                             <img class="h-16 w-16 rounded-full mx-auto"
@@ -70,36 +66,23 @@
                 <!-- About Section -->
                 <div class="bg-white p-3 shadow-sm rounded-sm">
                     <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
-                        <span clas="text-green-500">
-                            <svg class="h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                        </span>
+                        <i class="fas fa-dumbbell text-green-500"></i>
                         <span class="tracking-wide">Stats</span>
                     </div>
                       <table class="min-w-full">
                         <thead>
-                            <tr>
-                                <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 tracking-wider">Type</th>
-                                <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 tracking-wider">Base Stat</th>
-                                <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 tracking-wider">Effort</th>
+                            <tr class="bg-gray-100 text-sm font-medium text-gray-700 text-center">
+                                <th class="px-4 py-2">Type</th>
+                                <th class="px-4 py-2">Base Stat</th>
+                                <th class="px-4 py-2">Effort</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white">
-                          <tr v-for="stat in pokemonDetails.stats" :key="stat.stat.name">
-                              <td class="px-4 py-2 whitespace-no-wrap border-b border-gray-400">
-                                  <div class="flex items-center">
-                                      <div>
-                                          <div class="text-sm leading-5 text-gray-800">{{$filters.capitalizeFirstCharacter(stat.stat.name)}}</div>
-                                      </div>
-                                  </div>
-                              </td>
-                              <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-400">
-                                  <div class="text-sm leading-5 text-blue-900">{{stat.base_stat}}</div>
-                              </td>
-                              <td class="px-6 py-2 whitespace-no-wrap border-b text-blue-900 border-gray-400 text-sm leading-5">{{stat.effort}}</td>
+                        <tbody class="text-sm font-normal text-gray-700 overflow-y-scroll">
+                          <tr v-for="stat in pokemonDetails.stats" :key="stat.stat.name"
+                              class="hover:bg-gray-100 border-b border-gray-200 py-10">
+                              <td class="px-4 py-3">{{$filters.capitalizeFirstCharacter(stat.stat.name)}}</td>
+                              <td class="px-4 py-3">{{stat.base_stat}}</td>
+                              <td class="px-4 py-3">{{stat.effort}}</td>
                           </tr>
                         </tbody>
                     </table>
