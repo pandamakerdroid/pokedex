@@ -14,9 +14,11 @@ export const store = createStore<State>({
   state: {
     pokemonDetailsUrl: ''
   },
+  getters: {
+    pokemonDetailsUrl: state => state.pokemonDetailsUrl,
+  },
   mutations: {
-      changePokemonDetailUrl(state, payload){
-          console.log(payload);
+      setPokemonDetailUrl(state, payload){
         state.pokemonDetailsUrl = payload.url;
       }
   }

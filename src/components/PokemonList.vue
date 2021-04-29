@@ -1,10 +1,10 @@
 <template>
 <div class="h-screen overflow-y-auto shadow">
     <i class="fas fa-chevron-left text-2xl absolute "></i>
-    <ul v-if="isInitialized" class=" md:w-48 px-3">
-        <li v-for="(pokemon, index) in response.data.results" :key="pokemon.name"
+    <ul v-if="isInitialized" class=" md:w-64 px-3">
+        <li v-for="(pokemon, index) in retrievedPokemons" :key="pokemon.name"
         class="py-3 px-2 flex flex-col-3 border-b border-gray-200"
-        v-on:click="store.commit({type:'changePokemonDetailUrl', url:pokemon.url})">
+        v-on:click="setPokemonDetailsUrl(pokemon.url)">
             <i class="fas fa-hashtag mt-1 mr-1"></i>
             <span class="pr-3 ">{{index+1}}</span> 
             <span class="pl-3 ">{{$filters.capitalizeFirstCharacter(pokemon.name)}}</span>
@@ -62,6 +62,14 @@ mounted () {
           console.log(error)
           return Promise.reject(error)
       });
+<<<<<<< Updated upstream
+=======
+  },
+  methods: {
+      setPokemonDetailsUrl(url:string){
+        this.store.commit({type:'setPokemonDetailUrl', url:url})
+      },
+>>>>>>> Stashed changes
   }
 })
 </script>
