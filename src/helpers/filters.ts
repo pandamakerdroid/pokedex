@@ -5,6 +5,9 @@ const filters = {
     //capitalize all words of a string. 
     capitalizeWords(string:string) {
         return string?string.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); }):'';
-    }
+    },
+    replaceNullNumber(number:number) {
+        return number?number:'--';
+    },
   }
   export default filters;
