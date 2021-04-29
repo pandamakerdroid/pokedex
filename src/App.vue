@@ -1,21 +1,21 @@
 <template>
   <div class="flex flow-row cursor-pointer">
     <pokemon-list/>
-    <pokemon-details/>
+    <pokemon-detail/>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import PokemonList from './components/PokemonList.vue'
-import PokemonDetails from './components/PokemonDetails.vue'
+import PokemonDetail from './components/PokemonDetail.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
     'pokemon-list':PokemonList,
-    'pokemon-details':PokemonDetails
-  }
+    'pokemon-detail':PokemonDetail
+    }
 })
 </script>
 
