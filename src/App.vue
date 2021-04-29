@@ -14,6 +14,7 @@ export default defineComponent({
   name: 'App',
   components: {
     'pokemon-list':PokemonList,
+    'pokemon-details':PokemonDetails
   }
 })
 </script>
