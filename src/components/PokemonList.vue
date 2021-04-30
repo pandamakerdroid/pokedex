@@ -50,7 +50,7 @@ export default defineComponent({
   setup: () => {
   },
   computed: {
-    filteredPokemons():Array<Object> {
+    filteredPokemons():Array<any> {
       return this.retrievedPokemons.filter(pokemon => {
          return (pokemon.name.indexOf(this.searchCriteria.toLowerCase()) > -1 ||
                  pokemon.url.split("/").slice(-2)[0].indexOf(this.searchCriteria.toLowerCase()) > -1)
@@ -88,7 +88,7 @@ export default defineComponent({
 mounted () {
   },
   methods: {
-    selectPokemon(name:number){
+    selectPokemon(name:string){
       this.selectedPokemon=name;
     },
     setPokemonDetailsUrl(url:string){
