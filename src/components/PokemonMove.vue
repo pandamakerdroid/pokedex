@@ -1,10 +1,10 @@
 <template>
-  <div class="bg-white p-3 shadow-sm rounded-sm h-80">
+  <div class="bg-white p-3 shadow-sm rounded-sm h-96">
       <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
         <i class="far fa-hand-rock text-green-500"></i>
         <span class="tracking-wide">Moves</span>
       </div>
-      <div class="h-64 overflow-y-auto">
+      <div class="h-72 overflow-y-auto">
         <table class="table-auto border-collapse w-full">
           <thead>
             <tr class="bg-gray-100 text-sm font-medium text-gray-700 text-center">

@@ -3,7 +3,7 @@
     <i class="fas fa-sync-alt text-green-500"></i>
     <span>Evolution</span>
   </div>
-  <div class="grid grid-cols-3 h-52 overflow-y-scroll">
+  <div class="grid grid-cols-3 max-h-48 overflow-y-scroll">
     <div v-for="pokemon in pokemonEvolutionChain" :key="pokemon.name" class="text-center my-2">
       <img 
       :class="pokemon.isSelf ? 'border-4 border-green-400' : 'border-4'"

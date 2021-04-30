@@ -1,5 +1,5 @@
 <template>
-<div v-if="isInitialized" class="container md:h-full col-span-10 mx-auto px-5 pt-2">
+<div v-if="isInitialized" class="container md:h-screen col-span-10 mx-auto px-5 pt-2 bg-gray-100">
         <div class="md:flex no-wrap md:-mx-2 ">
             <!-- Left Side -->
             <div class="w-full md:w-3/12 md:mx-2">
@@ -10,15 +10,13 @@
                     </div>
                     <h1 class="text-gray-900 font-bold text-xl leading-8 mt-1">{{$filters.capitalizeFirstCharacter(pokemonDetails.name)}}</h1>
                     <p class="text-sm text-gray-500 hover:text-gray-600 leading-6">ID: {{pokemonDetails.id}}</p>
+                    <p class="text-sm text-gray-500 hover:text-gray-600 leading-6">Order: {{pokemonDetails.order}}</p>
                     <ul
                         class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
-                        <li class="flex items-center py-3">
-                            <span>Order: {{pokemonDetails.order}}</span>
-                        </li>
-                        <li v-for="type in pokemonDetails.types" :key="type.slot" class="flex items-center py-3">
+                        <li v-for="type in pokemonDetails.types" :key="type.slot" class="flex items-center py-2">
                             <span>Type {{type.slot}}: {{$filters.capitalizeFirstCharacter(type.type.name)}}</span>
                         </li>
-                        <li v-for="(ability,index) in pokemonDetails.abilities" :key="ability.slot" class="flex items-center py-3">
+                        <li v-for="(ability,index) in pokemonDetails.abilities" :key="ability.slot" class="flex items-center py-2">
                             <span>Ability {{index+1}}: {{$filters.capitalizeFirstCharacter(ability.ability.name)}}</span>
                         </li>
                     </ul>
@@ -26,7 +24,7 @@
                 <!-- End of profile card -->
                 <div class="my-4"></div>
                 <!-- Friends card -->
-                <div class="bg-white p-3 hover:shadow">
+                <div class="bg-white p-3 hover:shadow h-56 h-max-60">
                     <pokemon-evolution v-if="isInitialized" :speciesUrl="pokemonDetails.speciesUrl"/>
                 </div>
                 <!-- End of friends card -->
