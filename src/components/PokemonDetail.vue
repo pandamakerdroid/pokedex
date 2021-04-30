@@ -27,36 +27,7 @@
                 <div class="my-4"></div>
                 <!-- Friends card -->
                 <div class="bg-white p-3 hover:shadow">
-                    <div class="flex items-center space-x-3 font-semibold text-gray-900 text-xl leading-8">
-                        <span class="text-green-500">
-                            <svg class="h-5 fill-current" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                        </span>
-                        <span>Evolution</span>
-                    </div>
-                    <div class="grid grid-cols-3">
-                        <div class="text-center my-2">
-                            <img class="h-16 w-16 rounded-full mx-auto"
-                                src="https://cdn.australianageingagenda.com.au/wp-content/uploads/2015/06/28085920/Phil-Beckett-2-e1435107243361.jpg"
-                                alt="">
-                            <a href="#" class="text-main-color">Kojstantin</a>
-                        </div>
-                        <div class="text-center my-2">
-                            <img class="h-16 w-16 rounded-full mx-auto"
-                                src="https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png"
-                                alt="">
-                            <a href="#" class="text-main-color">James</a>
-                        </div>
-                        <div class="text-center my-2">
-                            <img class="h-16 w-16 rounded-full mx-auto"
-                                src="https://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg"
-                                alt="">
-                            <a href="#" class="text-main-color">Natie</a>
-                        </div>
-                    </div>
+                    <pokemon-evolution v-if="isInitialized" :speciesUrl="pokemonDetails.speciesUrl"/>
                 </div>
                 <!-- End of friends card -->
             </div>
@@ -103,12 +74,13 @@ import { defineComponent } from 'vue'
 import { useStore } from '../store'
 import PokemonImage from './PokemonImage.vue'
 import PokemonMove from './PokemonMove.vue'
-
+import PokemonEvolution from './PokemonEvolution.vue'
 export default defineComponent({
   name: 'PokemonDetail',
     components: {
     'pokemon-image': PokemonImage,
-    'pokemon-move': PokemonMove
+    'pokemon-move': PokemonMove,
+    'pokemon-evolution': PokemonEvolution
   },
   data: () => {
       const store=useStore();
@@ -120,7 +92,7 @@ export default defineComponent({
           sprites: Array<object>,
           abilities: Array<object>,
           stats:Array<PokemonStat>
-          species: string,
+          speciesUrl: string,
           moves:Array<object>,
       };
       interface PokemonType{
@@ -168,7 +140,7 @@ export default defineComponent({
             types:response.data.types,
             moves:response.data.moves,
             stats:response.data.stats,
-            species:response.data.species.url
+            speciesUrl:response.data.species.url
           };
           this.isInitialized=true;
       });
