@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flow-row cursor-pointer">
+  <div class="grid grid-cols-12">
     <pokemon-list/>
     <pokemon-detail/>
   </div>
