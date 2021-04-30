@@ -9,7 +9,7 @@
       :class="pokemon.isSelf ? 'border-4 border-green-400' : 'border-4'"
       class="h-12 w-12 rounded-full mx-auto"
           v-lazy="{ src: pokemon.imageUrl, 
-                  loading: 'https://via.placeholder.com/150', 
+                  loading: 'https://craftypixels.com/placeholder-image/100x100/ffffff/ffffff', 
                   error: 'your error image url' }" 
           alt="">
       <span class="text-sm">{{$filters.capitalizeFirstCharacter(pokemon.name)}}</span>
