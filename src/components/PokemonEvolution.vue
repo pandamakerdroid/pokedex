@@ -4,10 +4,12 @@
     <span>Evolution</span>
   </div>
   <div class="grid grid-cols-3 max-h-48 overflow-y-scroll">
-    <div v-for="pokemon in pokemonEvolutionChain" :key="pokemon.name" class="text-center my-2">
+    <div v-for="pokemon in pokemonEvolutionChain" :key="pokemon.name" 
+    class="text-center my-2 cursor-pointer"
+    v-on:click="setPokemonName(pokemon.name)">
       <img 
       :class="pokemon.isSelf ? 'border-4 border-green-400' : 'border-4'"
-      class="h-12 w-12 rounded-full mx-auto"
+      class="h-12 w-12 rounded-full mx-auto hover:bg-gray-100" 
           v-lazy="{ src: pokemon.imageUrl, 
                   loading: 'https://craftypixels.com/placeholder-image/100x100/ffffff/ffffff', 
                   error: 'your error image url' }" 
@@ -19,6 +21,7 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue'
+  import { useStore } from '../store'
   export default defineComponent({
     name: 'PokemonEvolution',
     props: {
@@ -38,6 +41,7 @@
         pokemonEvolutionChain:[] as PokemonEvolutionChain[],
         pokemonEvolutionChainUrl:'',
         isInitialized:false,
+        store:useStore(),
       }
     },
     async mounted() {
@@ -64,6 +68,9 @@
       }  
     },
     methods: {
+      setPokemonName(name:string){
+        this.store.commit({type:'setPokemonName', name:name})
+      },
       pushToPokemonEvolutionChainArray(data:any){
         this.pokemonEvolutionChain.push({
               name:data.species.name,

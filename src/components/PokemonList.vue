@@ -51,6 +51,9 @@ export default defineComponent({
   setup: () => {
   },
   computed: {
+    newPokemonName():string{
+      return this.store.getters.getPokemonName;
+    },
     filteredPokemons():Array<any> {
       return this.retrievedPokemons.filter(pokemon => {
          return (pokemon.name.indexOf(this.searchCriteria.toLowerCase()) > -1 ||
@@ -116,6 +119,20 @@ mounted () {
         }
       });
     },
-  }
+  },
+  watch: {
+    newPokemonName (newName, oldName) {
+      if(newName && newName!==oldName){
+        this.selectPokemon(newName);
+        this.searchCriteria=newName;
+        let pokemon:any = this.retrievedPokemons.find(x => x.name == newName);
+        this.setPokemonDetailsUrl(pokemon.url);
+      }
+      else{
+        return;
+      }
+      
+    }
+  },
 })
 </script>
