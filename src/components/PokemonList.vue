@@ -1,5 +1,22 @@
 <template>
         <div class="h-screen overflow-y-auto shadow col-span-2">
+            <infinite-loading @infinite="infiniteHandler" class="text-xs" >
+              <template #spinner>
+                <span class="pl-3 col-span-9 text-left mt-2 fixed bottom-0 left-7">
+                Loading Pokemons..
+                </span>
+              </template>
+              <template #no-more>
+                <span class="pl-3 col-span-9 text-left hidden">
+                All Pokemons loaded
+                </span>
+              </template>
+              <template #no-results>
+                <span class="pl-3 col-span-9 text-left">                      
+                  No result found
+                </span>
+              </template>
+            </infinite-loading>
             <ul  class=" px-3">
                 <li v-for="pokemon in retrievedPokemons" :key="pokemon.name"
                 class="py-3 px-2 grid grid-cols-12 border-b border-gray-200"
@@ -9,27 +26,8 @@
                     </div>
                     <span class="pl-3 col-span-9 text-left">{{$filters.capitalizeFirstCharacter(pokemon.name)}}</span>
                 </li>
-                <li class="">
-                  <infinite-loading @infinite="infiniteHandler" >
-                    <template #spinner>
-                      <span class="pl-3 col-span-9 text-left">
-                       Loading Pokemons..
-                      </span>
-                    </template>
-                    <template #no-more>
-                      <span class="pl-3 col-span-9 text-left">
-                       All Pokemons loaded
-                      </span>
-                    </template>
-                    <template #no-results>
-                      <span class="pl-3 col-span-9 text-left">                      
-                        No result found
-                      </span>
-                    </template>
-                  </infinite-loading>
-                </li>
             </ul>
-        </div>
+      </div>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
@@ -83,11 +81,12 @@ mounted () {
             this.pokemonApiUrl.pokemonQueryLimit+
             this.pokemonQueryAmount[0] , {
           params: {
-            limit: 10,
+            limit: this.pokemonQueryAmount[0],
             offset: (this.page * this.pokemonQueryAmount[0]),
           },
         }).then(({ data }) => {
-          if (data.results.length) {
+          this.pokemonCount= this.pokemonCount==0? data.count:this.pokemonCount;
+          if (data.next) {
             this.page += 1;
             this.retrievedPokemons.push(...data.results);
             
