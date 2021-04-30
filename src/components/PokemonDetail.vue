@@ -90,7 +90,7 @@ export default defineComponent({
           types: Array<PokemonType>,
           order: number,
           sprites: Array<object>,
-          abilities: Array<object>,
+          abilities: Array<PokemonAbility>,
           stats:Array<PokemonStat>
           speciesUrl: string,
           moves:Array<object>,
@@ -98,6 +98,13 @@ export default defineComponent({
       interface PokemonType{
         slot:number,
         type:{
+          name:string,
+          url:string,
+        }
+      };
+      interface PokemonAbility{
+        slot:number,
+        ability:{
           name:string,
           url:string,
         }
