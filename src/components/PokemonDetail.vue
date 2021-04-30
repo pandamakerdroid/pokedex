@@ -13,8 +13,11 @@
                     <p class="text-sm text-gray-500 hover:text-gray-600 leading-6">Order: {{pokemonDetails.order}}</p>
                     <ul
                         class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
-                        <li v-for="type in pokemonDetails.types" :key="type.slot" class="flex items-center py-2">
-                            <span>Type {{type.slot}}: {{$filters.capitalizeFirstCharacter(type.type.name)}}</span>
+                        <li class="flex items-center py-2">
+                            <span v-for="type in pokemonDetails.types" :key="type.slot"  
+                                  v-pokemon-type="type.type.name">
+                              {{$filters.capitalizeFirstCharacter(type.type.name)}}
+                            </span>
                         </li>
                         <li v-for="(ability,index) in pokemonDetails.abilities" :key="ability.slot" class="flex items-center py-2">
                             <span>Ability {{index+1}}: {{$filters.capitalizeFirstCharacter(ability.ability.name)}}</span>

@@ -20,7 +20,7 @@
             <tr v-for="moveDetail in pokemonMovesDetail" :key="moveDetail.name"
             class="hover:bg-gray-100 border-b border-gray-200 py-10">
               <td class="px-4 py-4">{{$filters.capitalizeFirstCharacter(moveDetail.name)}}</td>
-              <td class="px-4 py-4">{{$filters.capitalizeFirstCharacter(moveDetail.type)}}</td>
+              <td class="px-4 py-4"><span v-pokemon-type="moveDetail.type">{{$filters.capitalizeFirstCharacter(moveDetail.type)}}</span></td>
               <td class="px-4 py-4">{{$filters.capitalizeFirstCharacter(moveDetail.category)}}</td>
               <!--replaceNullNumber filter not applied due to likely a Vue internals bug
               Unhandled error during execution of scheduler flush. This is likely a Vue internals bug. 
