@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen overflow-y-auto shadow col-span-2">
+  <div class="h-screen overflow-y-auto shadow rounded col-span-2">
     <infinite-loading @infinite="infiniteHandler" class="text-xs" >
       <template #spinner>
         <span class="pl-3 col-span-9 text-left mt-2 fixed bottom-0 left-7">
@@ -20,16 +20,17 @@
     <div class="fixed h-12 bg-green-400 shadow w-2/12">
       <input v-model="searchCriteria" 
       placeholder="Search" 
-      class="rounded-lg mt-2 py-1 px-2 shadow"/>
+      class="rounded-lg mt-2 py-1 px-2 shadow w-11/12 md:w-5/6"/>
     </div>
     <ul class="mt-12 px-3">
         <li v-for="pokemon in filteredPokemons" :key="pokemon.name"
-        class="py-3 px-2 grid grid-cols-12 border-b border-gray-200"
-        v-on:click="setPokemonDetailsUrl(pokemon.url)">
-            <div class="text-right col-span-3">
-              <span class="left-0 ">{{pokemon.url.split("/").slice(-2)[0]}}</span> 
+        :class="{ 'bg-green-400 text-white shadow': selectedPokemon === pokemon.name }"
+        class="py-3 px-2 grid grid-cols-12 border-b border-gray-200 rounded hover:bg-gray-100 hover:shadow hover:text-gray-800"
+        v-on:click="setPokemonDetailsUrl(pokemon.url);selectPokemon(pokemon.name)">
+            <div class="text-right col-span-3 hidden md:block">
+              <span class="left-0 text-sm md:text-md">{{pokemon.url.split("/").slice(-2)[0]}}</span> 
             </div>
-            <span class="pl-3 col-span-9 text-left">{{$filters.capitalizeFirstCharacter(pokemon.name)}}</span>
+            <span class="pl-0 md:pl-3 col-span-9 text-left text-sm md:text-md">{{$filters.capitalizeFirstCharacter(pokemon.name)}}</span>
         </li>
     </ul>
   </div>
@@ -80,14 +81,15 @@ export default defineComponent({
           pokemonQueryAmount:[50,75,100],
           retrievedPokemons:[] as Pokemon[],
           pokemonCount:0,
-          searchCriteria:''
+          searchCriteria:'',
+          selectedPokemon:''
     }
   },
 mounted () {
   },
   methods: {
-    filterPokemonList(){
-      console.log(this.searchCriteria)
+    selectPokemon(name:number){
+      this.selectedPokemon=name;
     },
     setPokemonDetailsUrl(url:string){
       this.store.commit({type:'setPokemonDetailUrl', url:url})
