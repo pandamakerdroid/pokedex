@@ -70,6 +70,9 @@
         });
       },
       async buildEvolutionChain(){
+        // Meowstic evolution chain incomplete only male #678 addressed, name INcomplete
+        // female #10025 absent in evolution chain #348
+        // ToDo: Revisit when API is updated
         try {
           const response = await this.axios.get(this.speciesUrl);
           this.pokemonEvolutionChainUrl=response.data.evolution_chain.url;
