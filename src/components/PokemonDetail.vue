@@ -28,7 +28,7 @@
                 <div class="my-4"></div>
                 <!-- Friends card -->
                 <div class="bg-white p-3 hover:shadow h-60 h-max-60">
-                    <pokemon-evolution v-if="isInitialized" :speciesUrl="pokemonDetails.speciesUrl"/>
+                    <pokemon-evolution :speciesUrl="pokemonDetails.speciesUrl"/>
                 </div>
                 <!-- End of friends card -->
             </div>
@@ -64,7 +64,7 @@
                 <div class="my-4"></div>
 
                 <!-- move and education -->
-                <pokemon-move v-if="isInitialized" :moves="pokemonDetails.moves"/>
+                <pokemon-move :moves="pokemonDetails.moves"/>
                 <!-- End of profile tab -->
             </div>
         </div>
@@ -132,8 +132,8 @@ export default defineComponent({
   },
   methods: {
     retrievePokemonDetails(){
-      this.isInitialized=false;
-      if(this.store.getters.getPokemonDetailsUrl===''){
+      if(this.store.getters.getPokemonDetailsUrl==='' || !this.store.getters.getPokemonDetailsUrl){
+        this.isInitialized=false;
         return;
       }
       this.axios
