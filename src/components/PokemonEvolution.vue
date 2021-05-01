@@ -3,7 +3,7 @@
     <i class="fas fa-sync-alt text-green-500"></i>
     <span>Evolution</span>
   </div>
-  <div class="grid grid-cols-3 max-h-48 overflow-y-scroll">
+  <div v-if="speciesUrl" class="grid grid-cols-3 max-h-48 overflow-y-scroll">
     <div v-for="pokemon in pokemonEvolutionChain" :key="pokemon.name" 
     class="text-center my-2 cursor-pointer"
     v-on:click="setPokemonName(pokemon.name)">
@@ -30,6 +30,12 @@
         required: true,
       }
     },
+    watch: { 
+      	async speciesUrl(newUrl, oldUrl) { 
+          if (!newUrl||newUrl===''||newUrl===oldUrl) { return };
+          this.buildEvolutionChain();
+        }
+    },
     data () {
       interface PokemonEvolutionChain {
         name: string,
@@ -45,27 +51,8 @@
       }
     },
     async mounted() {
-      try {
-        const response = await this.axios.get(this.speciesUrl);
-        this.pokemonEvolutionChainUrl=response.data.evolution_chain.url;
-      } catch (error) {
-        console.error(error);
-      }   
-      try {
-        const response = await this.axios.get(this.pokemonEvolutionChainUrl);
-        let data=response.data.chain;
-        this.pushToPokemonEvolutionChainArray(data);
-        data=data.evolves_to;
-        data.forEach((firstRevolutions:any) => {
-          this.pushToPokemonEvolutionChainArray(firstRevolutions);
-          firstRevolutions=firstRevolutions.evolves_to;
-          firstRevolutions.forEach((secondRevolution:any) => {
-            this.pushToPokemonEvolutionChainArray(secondRevolution);
-          });
-        });
-      } catch (error) {
-        console.error(error);
-      }  
+      if(!this.speciesUrl || this.speciesUrl===''){return;}
+      this.buildEvolutionChain();
     },
     methods: {
       setPokemonName(name:string){
@@ -78,6 +65,30 @@
               imageUrl:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${data.species.url.split("/").slice(-2)[0]}.png`,
               isSelf: (data.species.url===this.speciesUrl?true:false)
         });
+      },
+      async buildEvolutionChain(){
+        try {
+              const response = await this.axios.get(this.speciesUrl);
+              this.pokemonEvolutionChainUrl=response.data.evolution_chain.url;
+            } catch (error) {
+              console.error(error);
+            }   
+            try {
+              this.pokemonEvolutionChain=[];
+              const response = await this.axios.get(this.pokemonEvolutionChainUrl);
+              let data=response.data.chain;
+              this.pushToPokemonEvolutionChainArray(data);
+              data=data.evolves_to;
+              data.forEach((firstRevolutions:any) => {
+                this.pushToPokemonEvolutionChainArray(firstRevolutions);
+                firstRevolutions=firstRevolutions.evolves_to;
+                firstRevolutions.forEach((secondRevolution:any) => {
+                  this.pushToPokemonEvolutionChainArray(secondRevolution);
+                });
+              });
+            } catch (error) {
+              console.error(error);
+            }  
       }
     }
   })
