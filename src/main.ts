@@ -11,7 +11,7 @@ import { PokemonType } from './directives/pokemon-type'
 const app = createApp(App);
 app.directive('pokemon-type', PokemonType);
 app.use(VueAxios, axios);
-app.use(store, key)
+app.use(store, key);
 app.config.globalProperties.$filters=filters;
 app.use(VueLazyLoad, {
     loading: () => {
@@ -23,7 +23,7 @@ app.use(VueLazyLoad, {
       loaded: () => {
         console.log('loaded')
       }
-  })
+  });
 app.mount('#app');
 
 

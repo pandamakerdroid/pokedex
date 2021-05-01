@@ -4,9 +4,9 @@
     <span>Evolution</span>
   </div>
   <div v-if="speciesUrl" class="grid grid-cols-3 max-h-48 overflow-y-scroll">
-    <div v-for="pokemon in pokemonEvolutionChain" :key="pokemon.name" 
+    <div v-for="pokemon in pokemonEvolutionChain" :key="pokemon.id" 
     class="text-center my-2 cursor-pointer"
-    v-on:click="setPokemonName(pokemon.name)">
+    v-on:click="setPokemonId(pokemon.id)">
       <img 
       :class="pokemon.isSelf ? 'border-4 border-green-400' : 'border-4'"
       class="h-12 w-12 rounded-full mx-auto hover:bg-gray-100" 
@@ -38,6 +38,7 @@
     },
     data () {
       interface PokemonEvolutionChain {
+        id: number,
         name: string,
         spieciesUrl: string,
         imageUrl: string,
@@ -55,14 +56,16 @@
       this.buildEvolutionChain();
     },
     methods: {
-      setPokemonName(name:string){
-        this.store.commit({type:'setPokemonName', name:name})
+      setPokemonId(id:number){
+        this.store.commit({type:'setPokemonId', id:id})
       },
       pushToPokemonEvolutionChainArray(data:any){
+        const id = data.species.url.split("/").slice(-2)[0]
         this.pokemonEvolutionChain.push({
+              id: id,
               name:data.species.name,
               spieciesUrl:data.species.url,
-              imageUrl:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${data.species.url.split("/").slice(-2)[0]}.png`,
+              imageUrl:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
               isSelf: (data.species.url===this.speciesUrl?true:false)
         });
       },

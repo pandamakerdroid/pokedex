@@ -17,23 +17,25 @@
         </span>
       </template>
     </infinite-loading>
-    <div class="fixed h-12 bg-green-400 shadow w-2/12">
-      <input v-model="searchCriteria" 
-      placeholder="Search" 
-      class="rounded-lg mt-2 py-1 px-2 shadow w-11/12 md:w-5/6"/>
+    <div class="h-full flex flex-col">
+      <div class="h-12 mb-1 bg-green-400 shadow w-full">
+        <input v-model="searchCriteria" 
+        placeholder="Search" 
+        class="rounded-lg my-2 py-1 px-2 shadow w-11/12 md:w-5/6"/>
+      </div>
+      <ul class="px-3 overflow-y-scroll" id="pokemon-list">
+          <li v-for="pokemon in filteredPokemons" :key="pokemon.name" :id="String(getPokemonId(pokemon.url))"
+          :class="{ 'bg-green-400 text-white shadow': selectedPokemon == getPokemonId(pokemon.url) }"
+          class="py-3 px-2 grid grid-cols-12 border-b border-gray-200 rounded cursor-pointer
+                hover:bg-gray-100 hover:shadow hover:text-gray-800"
+          v-on:click="setPokemonDetailsUrl(pokemon.url);selectPokemon(getPokemonId(pokemon.url))">
+              <div class="text-right col-span-3 hidden md:block">
+                <span class="left-0 text-sm md:text-md">{{getPokemonId(pokemon.url)}}</span> 
+              </div>
+              <span class="mt-1 pl-0 md:pl-3 col-span-9 text-left text-sm md:text-md">{{$filters.capitalizeFirstCharacter(pokemon.name)}}</span>
+          </li>
+      </ul>
     </div>
-    <ul class="mt-12 px-3">
-        <li v-for="pokemon in filteredPokemons" :key="pokemon.name"
-        :class="{ 'bg-green-400 text-white shadow': selectedPokemon === pokemon.name }"
-        class="py-3 px-2 grid grid-cols-12 border-b border-gray-200 rounded cursor-pointer
-              hover:bg-gray-100 hover:shadow hover:text-gray-800"
-        v-on:click="setPokemonDetailsUrl(pokemon.url);selectPokemon(pokemon.name)">
-            <div class="text-right col-span-3 hidden md:block">
-              <span class="left-0 text-sm md:text-md">{{pokemon.url.split("/").slice(-2)[0]}}</span> 
-            </div>
-            <span class="mt-1 pl-0 md:pl-3 col-span-9 text-left text-sm md:text-md">{{$filters.capitalizeFirstCharacter(pokemon.name)}}</span>
-        </li>
-    </ul>
   </div>
 </template>
 <script lang="ts">
@@ -51,13 +53,13 @@ export default defineComponent({
   setup: () => {
   },
   computed: {
-    newPokemonName():string{
-      return this.store.getters.getPokemonName;
+    newPokemon():number{
+      return this.store.getters.getPokemonId;
     },
     filteredPokemons():Array<any> {
       return this.retrievedPokemons.filter(pokemon => {
          return (pokemon.name.indexOf(this.searchCriteria.toLowerCase()) > -1 ||
-                 pokemon.url.split("/").slice(-2)[0].indexOf(this.searchCriteria.toLowerCase()) > -1)
+                 String(this.getPokemonId(pokemon.url)).indexOf(this.searchCriteria.toLowerCase()) > -1)
       });
     }
   },
@@ -69,6 +71,7 @@ export default defineComponent({
           pokemonQueryOffset: string
       }
       interface Pokemon{
+          id:number,
           name:string,
           url:string
       }
@@ -86,23 +89,24 @@ export default defineComponent({
           retrievedPokemons:[] as Pokemon[],
           pokemonCount:0,
           searchCriteria:'',
-          selectedPokemon:''
+          selectedPokemon:0
     }
   },
 mounted () {
   },
   methods: {
-    selectPokemon(name:string){
-      this.selectedPokemon=name;
+    getPokemonId(url:string) {
+      return Number(url.split("/").slice(-2)[0]);
+    },
+    selectPokemon(id:number){
+      this.selectedPokemon=id;
     },
     setPokemonDetailsUrl(url:string){
       this.store.commit({type:'setPokemonDetailUrl', url:url})
     },
     infiniteHandler($state: any):void {
       this.axios.get(this.pokemonApiUrl.baseUrl+
-          this.pokemonApiUrl.pokemonPath+
-          this.pokemonApiUrl.pokemonQueryLimit+
-          this.pokemonQueryAmount[0] , {
+          this.pokemonApiUrl.pokemonPath, {
         params: {
           limit: this.pokemonQueryAmount[0],
           offset: (this.page * this.pokemonQueryAmount[0]),
@@ -121,11 +125,11 @@ mounted () {
     },
   },
   watch: {
-    newPokemonName (newName, oldName) {
-      if(newName && newName!==oldName){
-        this.selectPokemon(newName);
-        this.searchCriteria=newName;
-        let pokemon:any = this.retrievedPokemons.find(x => x.name == newName);
+    newPokemon (newId, oldId) {
+      if(newId && newId!==oldId){
+        this.selectPokemon(newId);
+        const scrollTo=this.$el.querySelector("[id='"+newId+"']").scrollIntoView();
+        let pokemon:any = this.retrievedPokemons.find(x => this.getPokemonId(x.url) == newId);
         this.setPokemonDetailsUrl(pokemon.url);
       }
       else{

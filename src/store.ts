@@ -5,7 +5,7 @@ import { createStore, useStore as baseUseStore, Store } from 'vuex'
 // define your typings for the store state
 export interface State {
   pokemonDetailsUrl: string
-  pokemonName: string
+  pokemonId: number
 }
 
 // define injection key
@@ -14,18 +14,18 @@ export const key: InjectionKey<Store<State>> = Symbol()
 export const store = createStore<State>({
   state: {
     pokemonDetailsUrl: '',
-    pokemonName: ''
+    pokemonId: 0
   },
   getters: {
     getPokemonDetailsUrl: state => state.pokemonDetailsUrl,
-    getPokemonName: state => state.pokemonName,
+    getPokemonId: state => state.pokemonId,
   },
   mutations: {
       setPokemonDetailUrl(state, payload){
         state.pokemonDetailsUrl = payload.url;
       },
-      setPokemonName(state, payload){
-        state.pokemonName = payload.name;
+      setPokemonId(state, payload){
+        state.pokemonId = payload.id;
       }
   }
 })
