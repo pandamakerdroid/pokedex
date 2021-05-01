@@ -68,27 +68,29 @@
       },
       async buildEvolutionChain(){
         try {
-              const response = await this.axios.get(this.speciesUrl);
-              this.pokemonEvolutionChainUrl=response.data.evolution_chain.url;
-            } catch (error) {
-              console.error(error);
-            }   
-            try {
-              this.pokemonEvolutionChain=[];
-              const response = await this.axios.get(this.pokemonEvolutionChainUrl);
-              let data=response.data.chain;
-              this.pushToPokemonEvolutionChainArray(data);
-              data=data.evolves_to;
-              data.forEach((firstRevolutions:any) => {
-                this.pushToPokemonEvolutionChainArray(firstRevolutions);
-                firstRevolutions=firstRevolutions.evolves_to;
-                firstRevolutions.forEach((secondRevolution:any) => {
-                  this.pushToPokemonEvolutionChainArray(secondRevolution);
-                });
-              });
-            } catch (error) {
-              console.error(error);
-            }  
+          const response = await this.axios.get(this.speciesUrl);
+          this.pokemonEvolutionChainUrl=response.data.evolution_chain.url;
+        } catch (error) {
+          console.error(error);
+        }   
+        try {
+          const evolutionUrl=this.pokemonEvolutionChainUrl;
+          const response = await this.axios.get(this.pokemonEvolutionChainUrl);
+          if(evolutionUrl!=this.pokemonEvolutionChainUrl) {return};
+          this.pokemonEvolutionChain=[];
+          let data=response.data.chain;
+          this.pushToPokemonEvolutionChainArray(data);
+          data=data.evolves_to;
+          data.forEach((firstRevolutions:any) => {
+            this.pushToPokemonEvolutionChainArray(firstRevolutions);
+            firstRevolutions=firstRevolutions.evolves_to;
+            firstRevolutions.forEach((secondRevolution:any) => {
+              this.pushToPokemonEvolutionChainArray(secondRevolution);
+            });
+          });
+        } catch (error) {
+          console.error(error);
+        }  
       }
     }
   })
