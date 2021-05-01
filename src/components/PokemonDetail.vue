@@ -27,7 +27,7 @@
                 <!-- End of profile card -->
                 <div class="my-4"></div>
                 <!-- Friends card -->
-                <div class="bg-white p-3 hover:shadow h-56 h-max-60">
+                <div class="bg-white p-3 hover:shadow h-60 h-max-60">
                     <pokemon-evolution v-if="isInitialized" :speciesUrl="pokemonDetails.speciesUrl"/>
                 </div>
                 <!-- End of friends card -->
@@ -127,17 +127,17 @@ export default defineComponent({
   },
   computed: {
     newPokemonDetailsUrl():string{
-      return this.store.getters.pokemonDetailsUrl;
+      return this.store.getters.getPokemonDetailsUrl;
     }
   },
   methods: {
     retrievePokemonDetails(){
       this.isInitialized=false;
-      if(this.store.getters.pokemonDetailsUrl===''){
+      if(this.store.getters.getPokemonDetailsUrl===''){
         return;
       }
       this.axios
-      .get(this.store.getters.pokemonDetailsUrl)
+      .get(this.store.getters.getPokemonDetailsUrl)
       .then(response => {
           this.pokemonDetails={
             id:response.data.id,

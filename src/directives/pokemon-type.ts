@@ -1,8 +1,7 @@
 import { DirectiveBinding, Directive } from 'vue'
 
-const onBeforeMounted = (el: HTMLInputElement, binding: DirectiveBinding) => {
+const buildTypeBlock = (el: HTMLInputElement, binding: DirectiveBinding) => {
     let classList="block rounded border-2 text-sm mx-1 px-1 ";
-    console.log(binding);
     switch(binding.value){
         case "normal":
             el.setAttribute("class", classList.concat("bg-gray-200 border-gray-300 text-black"));
@@ -69,5 +68,7 @@ const onBeforeMounted = (el: HTMLInputElement, binding: DirectiveBinding) => {
 
 
 export const PokemonType: Directive = {
-  beforeMount: onBeforeMounted,
+  beforeMount: buildTypeBlock,
+  mounted: buildTypeBlock,
+  updated: buildTypeBlock
 }
