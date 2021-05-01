@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-12">
+  <div class="grid grid-cols-12 bg-gray-100">
     <pokemon-list/>
     <pokemon-detail/>
   </div>

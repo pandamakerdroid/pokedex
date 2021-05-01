@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen overflow-y-auto shadow rounded col-span-2">
+  <div class="bg-white h-screen overflow-y-auto shadow rounded col-span-2">
     <infinite-loading @infinite="infiniteHandler" class="text-xs" >
       <template #spinner>
         <span class="pl-3 col-span-9 text-left mt-2 fixed bottom-0 left-7">

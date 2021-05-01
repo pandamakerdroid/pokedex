@@ -1,9 +1,9 @@
 <template>
-<div v-if="isInitialized" class="container md:h-screen col-span-10 mx-auto px-5 pt-2 bg-gray-100">
+<div v-if="isInitialized" class="container h-screen col-span-10 mx-auto px-5 pt-4 md:pt-2 bg-gray-100 overflow-y-scroll">
         <div class="md:flex no-wrap md:-mx-2 ">
             <!-- Left Side -->
             <div class="w-full md:w-3/12 md:mx-2">
-                <!-- Profile Card -->
+                <!-- Basic Info Card -->
                 <div class="bg-white p-3 border-t-4 border-green-400">
                     <div class="image overflow-hidden">
                         <pokemon-image :images="pokemonDetails.sprites"/>
@@ -24,19 +24,18 @@
                         </li>
                     </ul>
                 </div>
-                <!-- End of profile card -->
+                <!-- End of Basic Info card -->
                 <div class="my-4"></div>
-                <!-- Friends card -->
-                <div class="bg-white p-3 hover:shadow h-60 h-max-60">
+                <!-- Evolution card -->
+                <div class="bg-white p-3 h-60 h-max-60">
                     <pokemon-evolution :speciesUrl="pokemonDetails.speciesUrl"/>
                 </div>
-                <!-- End of friends card -->
+                <!-- End of Evolution card -->
             </div>
             <!-- Right Side -->
-            <div class="w-full md:w-9/12 mx-2 h-64">
-                <!-- Profile tab -->
-                <!-- About Section -->
-                <div class="bg-white p-3 shadow-sm rounded-sm">
+            <div class="pb-4 pt-4 md:pt-0 w-full md:w-9/12 md:mx-2 h-full md:h-64">
+                <!-- stats Section -->
+                <div class="bg-white p-3 shadow-sm rounded-sm  mb-4">
                     <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
                         <i class="fas fa-dumbbell text-green-500"></i>
                         <span class="tracking-wide">Stats</span>
@@ -61,12 +60,10 @@
                 </div>
                 <!-- End of stats section -->
 
-                <div class="my-4"></div>
-
-                <!-- move and education -->
-                <pokemon-move :moves="pokemonDetails.moves"/>
-                <!-- End of profile tab -->
+                <!-- move section -->
+                  <pokemon-move :moves="pokemonDetails.moves"/>
             </div>
+            <!-- End of Right Side -->
         </div>
     </div>
 </template>
