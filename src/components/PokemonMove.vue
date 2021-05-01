@@ -46,6 +46,13 @@
         required: true,
       }
     },
+    watch: { 
+      	moves(newMoves, oldMoves) { 
+          if (!newMoves||newMoves===oldMoves) { return };
+          this.PokemonMoves=newMoves;
+          this.fetchMoves();
+        }
+    },
     data () {
       interface PokemonMoveDetail {
         name: string,
@@ -69,21 +76,27 @@
       }
     },
     mounted() {
-      this.PokemonMoves.forEach(move => {
-        this.axios
-          .get(move.move.url)
-          .then(response => {
-            this.pokemonMovesDetail.push({
-              name:response.data.name,
-              accuracy:response.data.accuracy,
-              power:response.data.power,
-              pp:response.data.pp,
-              type:response.data.type.name,
-              category:response.data.damage_class.name
+      this.fetchMoves();
+    },
+    methods: {
+      fetchMoves(){
+        this.pokemonMovesDetail=[];
+        this.PokemonMoves.forEach(move => {
+          this.axios
+            .get(move.move.url)
+            .then(response => {
+              this.pokemonMovesDetail.push({
+                name:response.data.name,
+                accuracy:response.data.accuracy,
+                power:response.data.power,
+                pp:response.data.pp,
+                type:response.data.type.name,
+                category:response.data.damage_class.name
+              });
             });
-          });
-        this.isInitialized=true;
-      });
+          this.isInitialized=true;
+        });
+      }
     }
   })
 </script>
