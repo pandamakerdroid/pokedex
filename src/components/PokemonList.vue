@@ -48,7 +48,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { ref,defineComponent } from 'vue'
 import { useStore } from '../store'
 import InfiniteLoading from 'infinite-loading-vue3-ts';
 
@@ -100,6 +100,7 @@ export default defineComponent({
           pokemonCount:0,
           searchCriteria:'',
           selectedPokemon:0,
+          el:ref<HTMLDivElement>(),
           tailwind : {
             xs: 0,
             sm: 640,
@@ -152,7 +153,8 @@ mounted () {
     newPokemon (newId, oldId) {
       if(newId && newId!==oldId){
         this.selectPokemon(newId);
-        const scrollTo=this.$el.querySelector("[id='"+newId+"']").scrollIntoView();
+        let el=document.querySelector("[id='"+newId+"']");
+        el?el.scrollIntoView():console.log("cannot scroll, li id "+newId+" does not exist");
         let pokemon:any = this.retrievedPokemons.find(x => this.getPokemonId(x.url) == newId);
         this.setPokemonDetailsUrl(pokemon.url);
       }
