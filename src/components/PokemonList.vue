@@ -99,22 +99,23 @@ export default defineComponent({
           retrievedPokemons:[] as Pokemon[],
           pokemonCount:0,
           searchCriteria:'',
-          selectedPokemon:0
+          selectedPokemon:0,
+          tailwind : {
+            xs: 0,
+            sm: 640,
+            md: 768,
+            lg: 1024,
+            xl: 1280,
+            "2xl": 1536
+          }
     }
   },
 mounted () {
-      let _this = this;
+    let _this = this;
+    window.innerWidth<_this.tailwind.lg?_this.isMenuMinimized=true:_this.isMenuMinimized=false;
     window.addEventListener('resize', function () {
       //TODO: use vue-screen return tailwind size vocabulary when supports vue3 better
-      var tailwind = {
-        xs: 0,
-        sm: 640,
-        md: 768,
-        lg: 1024,
-        xl: 1280,
-        "2xl": 1536
-      };
-      window.innerWidth<tailwind.lg?_this.isMenuMinimized=true:_this.isMenuMinimized=false;
+      window.innerWidth<_this.tailwind.lg?_this.isMenuMinimized=true:_this.isMenuMinimized=false;
     });
   },
   methods: {
