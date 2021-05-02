@@ -70,9 +70,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useStore } from '../store'
-import PokemonImage from './PokemonImage.vue'
-import PokemonMove from './PokemonMove.vue'
-import PokemonEvolution from './PokemonEvolution.vue'
+import PokemonImage from '@components/PokemonImage.vue'
+import PokemonMove from '@components/PokemonMove.vue'
+import PokemonEvolution from '@components/PokemonEvolution.vue'
 export default defineComponent({
   name: 'PokemonDetail',
     components: {

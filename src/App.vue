@@ -7,8 +7,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import PokemonList from './components/PokemonList.vue'
-import PokemonDetail from './components/PokemonDetail.vue'
+import PokemonList from '@components/PokemonList.vue'
+import PokemonDetail from '@components/PokemonDetail.vue'
 
 export default defineComponent({
   name: 'App',
