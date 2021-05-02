@@ -1,11 +1,11 @@
 <template>
-    <div v-if="!isLoad"
-          class="bg-gray-100 h-48 w-48 mx-auto rounded flex justify-center items-center">
-          <i class="h-auto h-48 w-48 fas fa-fan animate-spin text-9xl text-gray-300"></i>
+  <div class="bg-gray-100 h-48 w-48 rounded mx-auto flex justify-center items-center">
+    <div v-if="!isLoad">
+          <i class="fas fa-fan animate-spin text-9xl text-gray-300"></i>
     </div>
     <img v-bind:class="{ 'hidden': !isLoad}" 
-          :src="avatarUrl" @load="loaded"
-          class="48 w-48 mx-auto bg-gray-100 rounded"/>
+          :src="avatarUrl" @load="loaded"/>
+  </div>
 </template>
 
 <script lang="ts">
