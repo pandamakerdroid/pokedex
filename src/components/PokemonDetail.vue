@@ -1,7 +1,9 @@
 <template>
   <div :class="{'bg-green-500':!isInitialized}" class="h-screen col-span-12 lg:col-span-10 bg-gray-100 overflow-y-scroll">
-    <div v-if="!isInitialized" class="h-full w-full">
-      <img src="@assets/pokedex-background.svg" class="object-cover	fixed opacity-5 h-full w-auto lg:h-auto lg:w-full"/>
+    <div v-if="!isInitialized" class="absolute w-auto h-full opacity-5 overflow-hidden">
+          <img src="@assets/pokedex-background.svg" class="object-cover h-full w-full"/>
+    </div>
+    <div v-if="!isInitialized">
       <div class="bg-gradient-to-r from-green-500 to-green-500 h-screen">
         <div class="w-full left-0 top-0 p-6 p-16 md:p-32">
           <div class="flex justify-between">
