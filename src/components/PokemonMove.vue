@@ -5,7 +5,7 @@
         <span class="tracking-wide">Moves</span>
       </div>
       <div class="h-72 overflow-y-auto">
-        <table class="table-auto border-collapse w-full">
+        <table class="table-fixed border-collapse w-full">
           <thead>
             <tr class="bg-gray-100 text-sm font-medium text-gray-700 text-center">
               <th class="px-4 py-2">Name</th>
@@ -16,7 +16,7 @@
               <th class="px-4 py-2">PP</th>
             </tr>
           </thead>
-          <tbody class="text-sm font-normal text-gray-700 overflow-y-scroll">
+          <tbody class="text-sm font-normal text-gray-700 overflow-y-scroll overflow-x-scroll">
             <tr v-for="moveDetail in pokemonMovesDetail" :key="moveDetail.name"
             class="hover:bg-gray-100 border-b border-gray-200 py-10">
               <td class="px-4 py-4">{{$filters.capitalizeFirstCharacter(moveDetail.name)}}</td>

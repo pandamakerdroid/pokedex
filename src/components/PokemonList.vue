@@ -1,5 +1,9 @@
 <template>
-  <div class="bg-white h-screen overflow-y-auto shadow rounded col-span-2">
+  <div v-if="isMenuMinimized" @click="isMenuMinimized = false" 
+    class="motion-safe:animate-spin mt-3 ml-3 cursor-pointer rounded-full shadow h-10 w-10 fixed lg:hidden z-20 bg-green-400 hover:bg-green-500 text-white hover:text-gray-100">
+    <i class=" mt-3 fas fa-bars"></i>
+  </div>
+  <div v-if="!isMenuMinimized" class=" z-10 fixed lg:relative bg-white h-screen overflow-y-auto shadow rounded h-min-40 col-span-2">
     <infinite-loading @infinite="infiniteHandler" class="text-xs" >
       <template #spinner>
         <span class="pl-3 col-span-9 text-left mt-2 fixed bottom-0 left-7">
@@ -17,6 +21,11 @@
         </span>
       </template>
     </infinite-loading>
+    <div class="fixed lg:hidden rounded-full bg-green-400 shadow h-10 w-10 left-64 top-96
+                hover:bg-green-500 text-gray-100 cursor-pointer"
+          @click="isMenuMinimized=true">
+      <i class="fas fa-compress-alt mt-3 text-white"></i>
+    </div>
     <div class="h-full flex flex-col">
       <div class="h-12 mb-1 bg-green-400 shadow w-full">
         <input v-model="searchCriteria" 
@@ -29,10 +38,10 @@
           class="py-3 px-2 grid grid-cols-12 border-b border-gray-200 rounded cursor-pointer
                 hover:bg-gray-100 hover:shadow hover:text-gray-800"
           v-on:click="setPokemonDetailsUrl(pokemon.url);selectPokemon(getPokemonId(pokemon.url))">
-              <div class="text-right col-span-3 hidden md:block">
+              <div class="text-right col-span-3 block">
                 <span class="left-0 text-sm md:text-md">{{getPokemonId(pokemon.url)}}</span> 
               </div>
-              <span class="mt-1 pl-0 md:pl-3 col-span-9 text-left text-sm md:text-md">{{$filters.capitalizeFirstCharacter(pokemon.name)}}</span>
+              <span class="mt-1 pl-3 col-span-9 text-left text-sm md:text-md">{{$filters.capitalizeFirstCharacter(pokemon.name)}}</span>
           </li>
       </ul>
     </div>
@@ -77,6 +86,7 @@ export default defineComponent({
       }
       return{
           page: 0,
+          isMenuMinimized:true,
           isInitialized:false,
           store:useStore(),
           pokemonApiUrl: {
@@ -93,6 +103,19 @@ export default defineComponent({
     }
   },
 mounted () {
+      let _this = this;
+    window.addEventListener('resize', function () {
+      //TODO: use vue-screen return tailwind size vocabulary when supports vue3 better
+      var tailwind = {
+        xs: 0,
+        sm: 640,
+        md: 768,
+        lg: 1024,
+        xl: 1280,
+        "2xl": 1536
+      };
+      window.innerWidth<tailwind.lg?_this.isMenuMinimized=true:_this.isMenuMinimized=false;
+    });
   },
   methods: {
     getPokemonId(url:string) {

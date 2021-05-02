@@ -1,5 +1,5 @@
 <template>
-<div v-if="isInitialized" class="container h-screen col-span-10 mx-auto px-5 pt-4 md:pt-2 bg-gray-100 overflow-y-scroll">
+<div v-if="isInitialized" class="container h-screen col-span-12 lg:col-span-10 mx-auto px-5 pt-4 md:pt-2 bg-gray-100 overflow-y-scroll">
         <div class="md:flex no-wrap md:-mx-2 ">
             <!-- Left Side -->
             <div class="w-full md:w-3/12 md:mx-2">

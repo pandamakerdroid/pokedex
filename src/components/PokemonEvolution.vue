@@ -14,7 +14,7 @@
                   loading: 'https://craftypixels.com/placeholder-image/100x100/ffffff/ffffff', 
                   error: 'your error image url' }" 
           alt="">
-      <span class="text-sm">{{$filters.capitalizeFirstCharacter(pokemon.name)}}</span>
+      <span class="text-xs lg:text-sm">{{$filters.capitalizeFirstCharacter(pokemon.name)}}</span>
     </div>
   </div>
 </template>
